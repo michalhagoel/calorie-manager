@@ -17,7 +17,7 @@ const reportRouter = require('./routes/report');
 
 // Mongo
 const mongoose = require('mongoose');
-const mongoUrl = 'mongodb://127.0.0.1:27017/calories-manager';
+const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/calories-manager';
 mongoose.connect(mongoUrl, { directConnection: true })
   .then(() => console.log('Connected to mongodb'))
   .catch((err) => console.log(err));
