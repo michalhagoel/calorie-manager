@@ -3,6 +3,7 @@
 
 const express = require('express');
 const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
 const Calorie = require('../models/calories');
 
 router.post('/addcalories/', function (req, res, next) {
@@ -21,7 +22,15 @@ router.post('/addcalories/', function (req, res, next) {
   }
 
   const { user_id, year, month, day, description, category, amount } = req.body;
-  const calorieToCreate = { user_id, year, month, day, description, category, amount };
+  const calorieToCreate = { user_id, year, month, day, description, category, amount, id: uuidv4() };
+
+  // Append today's date if no date is given
+  if (!year || !month || !day) {
+    const date = new Date();
+    calorieToCreate['day'] = date.getUTCDate();
+    calorieToCreate['month'] = date.getUTCMonth() + 1;
+    calorieToCreate['year'] = getUTCFullYear();
+  }
 
   Calorie.create(calorieToCreate)
     .then((calorie) => res.status(200).send(calorie))
@@ -33,7 +42,7 @@ router.post('/addcalories/', function (req, res, next) {
 });
 
 function getMissingParams (body) {
-  const requiredParams = ['user_id', 'year', 'month', 'day', 'description', 'category', 'amount'];
+  const requiredParams = ['user_id', 'description', 'category', 'amount'];
   const missingParams = [];
 
   // Checking the request's body for missing parameters
