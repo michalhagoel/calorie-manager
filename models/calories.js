@@ -8,6 +8,9 @@ const CaloriesSchema = new Schema({
   user_id: {
     type: Number
   },
+  id: {
+    type: String
+  },
   year: {
     type: Number
   },
