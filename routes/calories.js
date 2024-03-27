@@ -29,7 +29,7 @@ router.post('/addcalories/', function (req, res, next) {
     const date = new Date();
     calorieToCreate['day'] = date.getUTCDate();
     calorieToCreate['month'] = date.getUTCMonth() + 1;
-    calorieToCreate['year'] = getUTCFullYear();
+    calorieToCreate['year'] = date.getUTCFullYear();
   }
 
   Calorie.create(calorieToCreate)
